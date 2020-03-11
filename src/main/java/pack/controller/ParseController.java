@@ -3,10 +3,7 @@ package pack.controller;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pack.model.User;
 
 import java.io.BufferedReader;
@@ -19,16 +16,21 @@ import java.net.URL;
 public class ParseController {
 
     @GetMapping("/parse")
-    String parse() throws IOException {
-        String address = "https://beru.ru/product/mediapleer-okko-smart-box-chernyi/100844254102";
+    String parse(@RequestParam(name="product", required =false) String product) throws IOException {
+        String address = "https://beru.ru/product/" + product;
+        System.out.println(address);
 //        String address = "https://beru.ru/product/mediapleer-apple-tv-4k-32gb/1732194227";
         URL url = new URL(address);
         BufferedReader br = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream()));
         String s;
         while((s = br.readLine())!=null){
+//            if (s.contains("Ой123")){
+//                br.close();
+//                return "Нет товара";
+//            }
             System.out.println(s);
         }
         br.close();
-        return "ololo";
+        return "Есть товар";
     }
 }
